@@ -1,0 +1,38 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# IDE files
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Sequelize auto-generated files
+migrations/
+seeders/
+
+# Docker
+*.env.docker
+docker-compose.override.yml
+
+# Temporary files
+temp/
+tmp/
+
+# Debug
+*.log.*
+*.bak
+
+neon-backup.sh
