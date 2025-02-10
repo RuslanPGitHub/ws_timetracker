@@ -19,10 +19,6 @@ Thumbs.db
 *.swp
 *.swo
 
-# Sequelize auto-generated files
-migrations/
-seeders/
-
 # Docker
 *.env.docker
 docker-compose.override.yml
