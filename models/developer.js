@@ -9,7 +9,12 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            Developer.hasMany(models.TrackedHour, {
+                foreignKey: 'developer_id',
+            });
+            Developer.hasMany(models.DiscordNotification, {
+                foreignKey: 'developer_id',
+            });
         }
     }
     Developer.init(

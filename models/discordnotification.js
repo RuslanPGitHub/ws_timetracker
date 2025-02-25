@@ -9,7 +9,9 @@ module.exports = (sequelize, DataTypes) => {
          * The `models/index` file will call this method automatically.
          */
         static associate(models) {
-            // define association here
+            DiscordNotification.belongsTo(models.Developer, {
+                foreignKey: 'developer_id',
+            });
         }
     }
     DiscordNotification.init(
