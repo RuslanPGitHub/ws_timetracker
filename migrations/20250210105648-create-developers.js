@@ -18,13 +18,13 @@ module.exports = {
                 unique: true,
                 allowNull: false,
             },
+                        discord_id: {
+                type: Sequelize.STRING,
+                allowNull: true,
+            },
             name: {
                 type: Sequelize.STRING,
                 allowNull: false,
-            },
-            discord_id: {
-                type: Sequelize.STRING,
-                allowNull: true,
             },
             created_at: {
                 type: Sequelize.DATE,

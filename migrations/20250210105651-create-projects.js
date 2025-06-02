@@ -13,6 +13,11 @@ module.exports = {
                 defaultValue: Sequelize.UUIDV4,
                 allowNull: false,
             },
+            worksection_id: {
+                type: Sequelize.INTEGER,
+                unique: true,
+                allowNull: false,
+            },
             name: {
                 type: Sequelize.STRING,
                 unique: true,

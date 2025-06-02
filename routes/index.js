@@ -1,9 +1,17 @@
 const express = require('express');
 
-const rootRouter = require('./RootRoute');
+const dashboardRouter = require('./DashboardRoute');
+const developersRouter = require('./DevelopersRoute');
+const settingsRouter = require('./SettingsRoute');
 
 const router = express.Router();
 
-router.use('/', rootRouter);
+router.use('/dashboard/', dashboardRouter);
+router.use('/developers/', developersRouter);
+router.use('/settings/', settingsRouter);
+
+router.use('/', (req, res) => {
+    res.render('RootView', {});
+});
 
 module.exports = router;

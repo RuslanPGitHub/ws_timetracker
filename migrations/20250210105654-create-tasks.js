@@ -25,6 +25,10 @@ module.exports = {
                 type: Sequelize.STRING,
                 allowNull: false,
             },
+            worksection_url: {
+                type: Sequelize.STRING,
+                allowNull: false,
+            },
             description: {
                 type: Sequelize.TEXT,
                 allowNull: true,
