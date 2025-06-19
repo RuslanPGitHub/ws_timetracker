@@ -1,5 +1,26 @@
 <%- include('partials/header.ejs') %>
 
-<h1 class="display-3">Settings</h1>
-
+<h1 class="display-5">Налаштування</h1>
+<br>
+<div class="d-flex justify-content-center">
+  <div class="card p-4" style="max-width: 500px; width: 100%;">
+    <h3 class="card-title text-center mb-4">Оновити список розробників</h3>
+    <button type="button" class="btn btn-primary">Оновити</button>
+    <hr>
+    <h3 class="card-title text-center mb-4">Налаштування відстеження</h3>
+    <form>
+      <div class="mb-3">
+        <label for="maxHours" class="form-label">Максимальна кількість затреканих годин</label>
+        <input type="number" class="form-control" id="maxHours" placeholder="Наприклад, 8">
+      </div>
+      <div class="mb-3">
+        <label for="checkTime" class="form-label">Година, о котрій перевіряти</label>
+        <input type="time" class="form-control" id="checkTime">
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Зберегти налаштування</button>
+      </div>
+    </form>
+  </div>
+</div>
 <%- include('partials/footer.ejs') %>
