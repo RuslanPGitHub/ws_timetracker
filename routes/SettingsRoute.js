@@ -1,9 +1,10 @@
 const express = require('express');
 
-const { getSettingsHandler } = require('../controllers/SettingsController');
+const { getSettingsHandler, postSettingsHandler } = require('../controllers/SettingsController');
 
 const router = express.Router();
 
 router.get('/', getSettingsHandler);
+router.post('/', postSettingsHandler);
 
 module.exports = router;

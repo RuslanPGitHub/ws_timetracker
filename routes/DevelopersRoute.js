@@ -1,9 +1,13 @@
 const express = require('express');
 
-const { getDevelopersHandler } = require('../controllers/DevelopersController');
+const {
+    getDevelopersHandler,
+    postDevelopersHandler,
+} = require('../controllers/DevelopersController');
 
 const router = express.Router();
 
 router.get('/', getDevelopersHandler);
+router.post('/', postDevelopersHandler);
 
 module.exports = router;

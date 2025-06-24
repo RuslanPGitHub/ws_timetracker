@@ -5,14 +5,14 @@
 <div class="d-flex justify-content-center">
   <div class="card p-4" style="max-width: 500px; width: 100%;">
     <h3 class="card-title text-center mb-4">Налаштування відстеження</h3>
-    <form>
+    <form method="POST">
       <div class="mb-3">
         <label for="maxHours" class="form-label">Максимальна кількість затреканих годин</label>
-        <input type="number" class="form-control" id="maxHours" placeholder="Наприклад, 8">
+        <input name="maxhours" type="number" class="form-control" id="maxHours" placeholder="Наприклад, 8">
       </div>
       <div class="mb-3">
         <label for="checkTime" class="form-label">Година, о котрій перевіряти</label>
-        <input type="time" class="form-control" id="checkTime">
+        <input name="checktime" type="time" class="form-control" id="checkTime">
       </div>
       <div class="d-grid gap-2">
         <button type="submit" class="btn btn-primary">Зберегти налаштування</button>

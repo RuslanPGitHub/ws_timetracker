@@ -2,4 +2,8 @@ const getSettingsHandler = (req, res) => {
     res.render('SettingsView', {});
 };
 
-module.exports = { getSettingsHandler };
+const postSettingsHandler = (req, res) => {
+    res.json(req.body);
+};
+
+module.exports = { getSettingsHandler, postSettingsHandler };
