@@ -19,16 +19,37 @@ module.exports = (sequelize, DataTypes) => {
     }
     Developer.init(
         {
-            worksection_id: DataTypes.INTEGER,
-            name: DataTypes.STRING,
-            discord_id: DataTypes.STRING,
-            created_at: DataTypes.DATE,
+            id: {
+                type: DataTypes.UUID,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            worksection_id: {
+                type: DataTypes.INTEGER,
+                unique: true,
+                allowNull: false,
+            },
+            discord_id: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            created_at: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
+                allowNull: false,
+            },
         },
         {
             sequelize,
             modelName: 'Developer',
             tableName: 'developers',
             freezeTableName: true,
+            timestamps: false, 
         }
     );
     return Developer;

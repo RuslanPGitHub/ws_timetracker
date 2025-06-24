@@ -14,14 +14,34 @@ module.exports = (sequelize, DataTypes) => {
     }
     Project.init(
         {
-            name: DataTypes.STRING,
-            created_at: DataTypes.DATE,
+            id: {
+                type: DataTypes.UUID,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            worksection_id: {
+                type: DataTypes.INTEGER,
+                unique: true,
+                allowNull: false,
+            },
+            name: {
+                type: DataTypes.STRING,
+                unique: true,
+                allowNull: false,
+            },
+            created_at: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
+                allowNull: false,
+            },
         },
         {
             sequelize,
             modelName: 'Project',
             tableName: 'projects',
             freezeTableName: true,
+            imestamps: false,
         }
     );
     return Project;

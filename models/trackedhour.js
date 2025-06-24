@@ -17,17 +17,40 @@ module.exports = (sequelize, DataTypes) => {
     }
     TrackedHour.init(
         {
-            developer_id: DataTypes.UUID,
-            task_id: DataTypes.UUID,
-            date: DataTypes.DATE,
-            hours: DataTypes.FLOAT,
-            created_at: DataTypes.DATE,
+            id: {
+                type: DataTypes.UUID,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            developer_id: {
+                type: DataTypes.UUID,
+                allowNull: false,
+            },
+            task_id: {
+                type: DataTypes.UUID,
+                allowNull: true,
+            },
+            date: {
+                type: DataTypes.DATEONLY,
+                allowNull: false,
+            },
+            hours: {
+                type: DataTypes.FLOAT,
+                allowNull: false,
+            },
+            created_at: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
+                allowNull: false,
+            },
         },
         {
             sequelize,
             modelName: 'TrackedHour',
             tableName: 'tracked_hours',
             freezeTableName: true,
+            timestamps: false,
         }
     );
     return TrackedHour;

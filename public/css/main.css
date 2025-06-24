@@ -1,0 +1,10 @@
+ #hoursChartWrapper {
+    height: 500px; 
+    width: 100%;   
+    margin: auto;
+  }
+  canvas {
+    width: 100% !important;  
+    height: 100% !important;
+    user-select: none;
+  }

@@ -1,8 +1,130 @@
 <%- include('partials/header.ejs') %>
 
-<h1 class="display-5">Таблиця годин</h1>
-<p>
-    Тут буде інформація про кількість затреканих годин з можливістю фільтрації
-</p>
+<h1 class="display-5">Трекінг годин (Worksection)</h1>
+
+<div class="container my-5">
+    <!-- Фільтри -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Фільтр за ім'ям користувача"
+            />
+        </div>
+        <div class="col-md-4">
+            <input
+                type="text"
+                class="form-control"
+                placeholder="Фільтр за проектом"
+            />
+        </div>
+        <div class="col-md-4">
+            <input
+                type="date"
+                class="form-control"
+                placeholder="Фільтр за датою"
+            />
+        </div>
+    </div>
+
+    <!-- Таблиця -->
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Дата</th>
+                    <th scope="col">Користувач</th>
+                    <th scope="col">Проект</th>
+                    <th scope="col">Задача</th>
+                    <th scope="col" class="text-end">Час</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Zakhar Fesik</td>
+                    <td>Cookies bot</td>
+                    <td>Функціонал багатомовності для бота</td>
+                    <td class="text-end">3:36</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Oleksandr Kavyuk</td>
+                    <td>SOLMAR</td>
+                    <td>(запитання) Скрипт веб пушів на укр сайті?</td>
+                    <td class="text-end">0:12</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Natalia Shpak</td>
+                    <td>In development</td>
+                    <td>SPA Set Up</td>
+                    <td class="text-end">0:36</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Oleg Kravpa</td>
+                    <td>Shaul[Gold Arrow Tax]</td>
+                    <td>Fixes</td>
+                    <td class="text-end">0:06</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Sergiy Stepanchenko</td>
+                    <td>Dr Clinic</td>
+                    <td>Змінити нарахування</td>
+                    <td class="text-end">1:26</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Natalia Shpak</td>
+                    <td>Внутрішні розборки</td>
+                    <td>Time project reports</td>
+                    <td class="text-end">1:13</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Oleksandr Kavyuk</td>
+                    <td>SOLMAR</td>
+                    <td>Проблема з фільтрами на сайті</td>
+                    <td class="text-end">1:07</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Vyacheslav Androshchuk</td>
+                    <td>Світ замків</td>
+                    <td>Декілька тегів &lt;Н1&gt; на сторінці</td>
+                    <td class="text-end">1:02</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Oleksandr Kavyuk</td>
+                    <td>SOLMAR</td>
+                    <td>
+                        (запитання) Матчінг ID товарів товарного фіда та фіда
+                        єспутніка
+                    </td>
+                    <td class="text-end">0:11</td>
+                </tr>
+                <tr>
+                    <td>2025-06-20</td>
+                    <td>Dmytro Ivanov</td>
+                    <td>Gamepayment Tg Bot</td>
+                    <td>Webhook code check</td>
+                    <td class="text-end">8:51</td>
+                </tr>
+
+                <!-- Підсумок -->
+                <tr class="fw-bold table-light">
+                    <td colspan="4" class="text-end">Загалом</td>
+                    <td class="text-end">18:20</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="text-muted mt-3">* Дані з Worksection, демонстраційна заглушка</p>
+</div>
 
 <%- include('partials/footer.ejs') %>

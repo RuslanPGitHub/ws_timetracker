@@ -15,16 +15,40 @@ module.exports = (sequelize, DataTypes) => {
     }
     Task.init(
         {
-            project_id: DataTypes.UUID,
-            name: DataTypes.STRING,
-            description: DataTypes.TEXT,
-            created_at: DataTypes.DATE,
+            id: {
+                type: DataTypes.UUID,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            project_id: {
+                type: DataTypes.UUID,
+                allowNull: false,
+            },
+            name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            worksection_url: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            description: {
+                type: DataTypes.TEXT,
+                allowNull: true,
+            },
+            created_at: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
+                allowNull: false,
+            },
         },
         {
             sequelize,
             modelName: 'Task',
             tableName: 'tasks',
             freezeTableName: true,
+            timestamps: false,
         }
     );
     return Task;

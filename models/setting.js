@@ -14,16 +14,30 @@ module.exports = (sequelize, DataTypes) => {
     }
     Setting.init(
         {
-            key: DataTypes.STRING,
-            value: DataTypes.STRING,
-            created_at: DataTypes.DATE,
-            updated_at: DataTypes.DATE,
+            id: {
+                type: DataTypes.UUID,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            key: {
+                type: DataTypes.STRING,
+                unique: true,
+                allowNull: false,
+            },
+            value: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
         },
         {
             sequelize,
             modelName: 'Setting',
             tableName: 'settings',
             freezeTableName: true,
+            timestamps: true,
+            createdAt: 'created_at',
+            updatedAt: 'updated_at',
         }
     );
     return Setting;

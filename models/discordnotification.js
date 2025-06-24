@@ -16,15 +16,32 @@ module.exports = (sequelize, DataTypes) => {
     }
     DiscordNotification.init(
         {
-            developer_id: DataTypes.UUID,
-            message: DataTypes.TEXT,
-            sent_at: DataTypes.DATE,
+            id: {
+                type: DataTypes.UUID,
+                primaryKey: true,
+                defaultValue: DataTypes.UUIDV4,
+                allowNull: false,
+            },
+            developer_id: {
+                type: DataTypes.UUID,
+                allowNull: false,
+            },
+            message: {
+                type: DataTypes.TEXT,
+                allowNull: false,
+            },
+            sent_at: {
+                type: DataTypes.DATE,
+                defaultValue: DataTypes.NOW,
+                allowNull: false,
+            },
         },
         {
             sequelize,
             modelName: 'DiscordNotification',
             tableName: 'discord_notifications',
             freezeTableName: true,
+            timestamps: false,
         }
     );
     return DiscordNotification;
