@@ -2,22 +2,38 @@
 
 <h1 class="display-5">Налаштування</h1>
 <br>
+
+<% if (typeof message !== 'undefined' && message) { %>
+  <div class="alert alert-success" role="alert">
+    <%= message %>
+  </div>
+<% } %>
+
+<% if (typeof error !== 'undefined' && error) { %>
+  <div class="alert alert-danger" role="alert">
+    <%= error %>
+  </div>
+<% } %>
+
 <div class="d-flex justify-content-center">
   <div class="card p-4" style="max-width: 500px; width: 100%;">
-    <h3 class="card-title text-center mb-4">Налаштування відстеження</h3>
+    <h3 class="card-title text-center mb-4">Налаштування</h3>
     <form method="POST">
       <div class="mb-3">
-        <label for="maxHours" class="form-label">Максимальна кількість затреканих годин</label>
-        <input name="maxhours" type="number" class="form-control" id="maxHours" placeholder="Наприклад, 8">
+        <label for="maxHours" class="form-label">Максимальний таймер</label>
+        <input name="maxhours" type="number" class="form-control" id="maxHours" placeholder="Наприклад, 8"
+               value="<%= typeof settings !== 'undefined' && settings.maxhours ? settings.maxhours : '' %>">
       </div>
       <div class="mb-3">
         <label for="checkTime" class="form-label">Година, о котрій перевіряти</label>
-        <input name="checktime" type="time" class="form-control" id="checkTime">
+        <input name="checktime" type="time" class="form-control" id="checkTime"
+               value="<%= typeof settings !== 'undefined' && settings.checktime ? settings.checktime : '' %>">
       </div>
       <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-primary">Зберегти налаштування</button>
+        <button type="submit" class="btn btn-primary">Зберегти</button>
       </div>
     </form>
   </div>
 </div>
+
 <%- include('partials/footer.ejs') %>

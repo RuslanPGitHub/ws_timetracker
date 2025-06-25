@@ -25,17 +25,34 @@ module.exports = (sequelize, DataTypes) => {
                 defaultValue: DataTypes.UUIDV4,
                 allowNull: false,
             },
-            worksection_id: {
+            ws_avatar: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            ws_id: {
                 type: DataTypes.INTEGER,
                 unique: true,
                 allowNull: false,
             },
-            discord_id: {
+            ws_name: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            ws_title: {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
-            name: {
+            ws_email: {
                 type: DataTypes.STRING,
+                allowNull: true,
+            },
+            ws_phone: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            discord_id: {
+                type: DataTypes.STRING,
+                unique: true,
                 allowNull: false,
             },
             created_at: {
@@ -49,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
             modelName: 'Developer',
             tableName: 'developers',
             freezeTableName: true,
-            timestamps: false, 
+            timestamps: false,
         }
     );
     return Developer;

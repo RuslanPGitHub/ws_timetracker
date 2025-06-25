@@ -8,9 +8,6 @@ const config = {
     api: process.env.WORKSECTION_API_KEY,
 };
 
-/**
- * Створює hash і повертає підписаний URL
- */
 function buildSignedUrl(action, params = {}) {
     const baseUrl = `${config.account_url}/api/admin/v2`;
 
@@ -24,9 +21,6 @@ function buildSignedUrl(action, params = {}) {
     return `${baseUrl}?${queryString}&hash=${hash}`;
 }
 
-/**
- * Відправляє POST-запит з підписаним хешем
- */
 async function postToApi(action, params = {}) {
     const url = buildSignedUrl(action, params);
 
