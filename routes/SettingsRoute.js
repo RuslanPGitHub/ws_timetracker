@@ -1,6 +1,9 @@
 const express = require('express');
 
-const { getSettingsHandler, postSettingsHandler } = require('../controllers/SettingsController');
+const {
+    getSettingsHandler,
+    postSettingsHandler,
+} = require('../controllers/SettingsController');
 
 const router = express.Router();
 

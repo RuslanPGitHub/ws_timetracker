@@ -1,5 +1,5 @@
 {
-    "name": "timetracker",
+    "name": "worksection_timetracker",
     "version": "1.0.0",
     "main": "index.js",
     "scripts": {
@@ -7,10 +7,15 @@
         "dev": "nodemon index.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
-    "description": "",
+    "keywords": [
+        "worksection",
+        "timetracker",
+        "discord",
+        "nodejs"
+    ],
+    "author": "Ruslan Popadiuk <r.popadiuk@avivi.com.ua>",
+    "license": "MIT",
+    "description": "Цей додаток призначений для інтеграції Worksection timetracker. Він дозволяє зберігати затреканий час, інформацію про проекти, розробників та таски в окремій базі даних. Також надає функціонал для формування графіків відстеження норм та автоматичної відправки повідомлень користувачам у Discord.",
     "dependencies": {
         "axios": "^1.7.9",
         "bcrypt": "^5.1.1",
@@ -20,8 +25,7 @@
         "ejs": "^3.1.10",
         "express": "^4.21.2",
         "express-session": "^1.18.1",
-        "jsonwebtoken": "^9.0.2",
-        "pg": "^8.13.1",
+        "pg": "^8.16.3",
         "sequelize": "^6.37.5"
     },
     "devDependencies": {

@@ -48,7 +48,6 @@ const postDevelopersHandler = async (req, res) => {
         }
 
         const upsertPromises = developersData.map(async (obj) => {
-            console.log(obj);
             try {
                 return await db.Developer.upsert(
                     {
