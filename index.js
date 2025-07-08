@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./jobs/cronJobs.js');
 
 const PORT = process.env.PORT || 3000;
 
