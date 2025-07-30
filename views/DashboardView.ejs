@@ -3,32 +3,58 @@
 <h1 class="display-5">Трекінг годин (Worksection)</h1>
 
 <div class="container my-5">
-    <!-- Фільтри -->
-    <div class="row g-3 mb-4">
+    <form action="/dashboard" method="GET" class="row g-3 mb-4">
         <div class="col-md-4">
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Фільтр за ім'ям користувача"
-            />
+            <select
+                class="form-select"
+                name="username"
+            >
+                <option value="">Фільтр за користувачем</option>
+                <% allDevelopers.forEach(developer => { %>
+                    <option value="<%= developer.id %>" <%= filters.username === developer.id ? 'selected' : '' %>>
+                        <%= developer.ws_name %>
+                    </option>
+                <% }); %>
+            </select>
         </div>
         <div class="col-md-4">
-            <input
-                type="text"
-                class="form-control"
-                placeholder="Фільтр за проектом"
-            />
+            <select
+                class="form-select"
+                name="project"
+            >
+                <option value="">Фільтр за проектом</option>
+                <% allProjects.forEach(project => { %>
+                    <option value="<%= project.id %>" <%= filters.project === project.id ? 'selected' : '' %>>
+                        <%= project.name %>
+                    </option>
+                <% }); %>
+            </select>
         </div>
         <div class="col-md-4">
             <input
                 type="date"
                 class="form-control"
                 placeholder="Фільтр за датою"
+                name="date"
+                value="<%= filters.date || '' %>"
             />
         </div>
-    </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">
+                Застосувати фільтри
+            </button>
+            <a href="/dashboard" class="btn btn-secondary ms-2"
+                >Скинути фільтри</a
+            >
+        </div>
+    </form>
 
-    <!-- Таблиця -->
+    <% if (error) { %>
+    <div class="alert alert-danger" role="alert"><%= error %></div>
+    <% } %> <% if (message) { %>
+    <div class="alert alert-success" role="alert"><%= message %></div>
+    <% } %>
+
     <div class="table-responsive">
         <table class="table table-bordered table-hover align-middle">
             <thead class="table-light">
@@ -41,90 +67,38 @@
                 </tr>
             </thead>
             <tbody>
+                <% if (trackedHours && trackedHours.length > 0) { %> <%
+                trackedHours.forEach(hour => { %>
                 <tr>
-                    <td>2025-06-20</td>
-                    <td>Zakhar Fesik</td>
-                    <td>Cookies bot</td>
-                    <td>Функціонал багатомовності для бота</td>
-                    <td class="text-end">3:36</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Oleksandr Kavyuk</td>
-                    <td>SOLMAR</td>
-                    <td>(запитання) Скрипт веб пушів на укр сайті?</td>
-                    <td class="text-end">0:12</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Natalia Shpak</td>
-                    <td>In development</td>
-                    <td>SPA Set Up</td>
-                    <td class="text-end">0:36</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Oleg Kravpa</td>
-                    <td>Shaul[Gold Arrow Tax]</td>
-                    <td>Fixes</td>
-                    <td class="text-end">0:06</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Sergiy Stepanchenko</td>
-                    <td>Dr Clinic</td>
-                    <td>Змінити нарахування</td>
-                    <td class="text-end">1:26</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Natalia Shpak</td>
-                    <td>Внутрішні розборки</td>
-                    <td>Time project reports</td>
-                    <td class="text-end">1:13</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Oleksandr Kavyuk</td>
-                    <td>SOLMAR</td>
-                    <td>Проблема з фільтрами на сайті</td>
-                    <td class="text-end">1:07</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Vyacheslav Androshchuk</td>
-                    <td>Світ замків</td>
-                    <td>Декілька тегів &lt;Н1&gt; на сторінці</td>
-                    <td class="text-end">1:02</td>
-                </tr>
-                <tr>
-                    <td>2025-06-20</td>
-                    <td>Oleksandr Kavyuk</td>
-                    <td>SOLMAR</td>
+                    <td><%= hour.date || '' %></td>
                     <td>
-                        (запитання) Матчінг ID товарів товарного фіда та фіда
-                        єспутніка
+                        <%= hour.developer ? hour.developer.ws_name :
+                        'Невідомий' %>
                     </td>
-                    <td class="text-end">0:11</td>
+                    <td>
+                        <%= hour.task && hour.task.project ?
+                        hour.task.project.name : 'Невідомий' %>
+                    </td>
+                    <td><%= hour.task ? hour.task.name : 'Невідома' %></td>
+                    <td class="text-end"><%= hour.hours %></td>
                 </tr>
+                <% }); %> <% } else { %>
                 <tr>
-                    <td>2025-06-20</td>
-                    <td>Dmytro Ivanov</td>
-                    <td>Gamepayment Tg Bot</td>
-                    <td>Webhook code check</td>
-                    <td class="text-end">8:51</td>
+                    <td colspan="5" class="text-center">
+                        Немає відстежених годин або дані відсутні.
+                    </td>
                 </tr>
+                <% } %>
 
-                <!-- Підсумок -->
                 <tr class="fw-bold table-light">
                     <td colspan="4" class="text-end">Загалом</td>
-                    <td class="text-end">18:20</td>
+                    <td class="text-end"><%= totalTime %></td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <p class="text-muted mt-3">* Дані з Worksection, демонстраційна заглушка</p>
+
 </div>
 
 <%- include('partials/footer.ejs') %>

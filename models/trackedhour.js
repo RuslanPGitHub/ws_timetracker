@@ -3,16 +3,15 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
     class TrackedHour extends Model {
-        /**
-         * Helper method for defining associations.
-         * This method is not a part of Sequelize lifecycle.
-         * The `models/index` file will call this method automatically.
-         */
         static associate(models) {
             TrackedHour.belongsTo(models.Developer, {
                 foreignKey: 'developer_id',
+                as: 'developer',
             });
-            TrackedHour.belongsTo(models.Task, { foreignKey: 'task_id' });
+            TrackedHour.belongsTo(models.Task, {
+                foreignKey: 'task_id',
+                as: 'task',
+            });
         }
     }
     TrackedHour.init(
@@ -32,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             },
             date: {
-                type: DataTypes.DATEONLY,
+                type: DataTypes.DATE,
                 allowNull: false,
             },
             hours: {
