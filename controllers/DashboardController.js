@@ -14,7 +14,7 @@ const getDashboardHandler = async (req, res) => {
         });
         
         const allProjects = await db.Project.findAll({
-            attributes: ['id', 'name'],
+            attributes: ['id', 'name', 'worksection_id'],
             order: [['name', 'ASC']]
         });
 
@@ -79,12 +79,12 @@ const getDashboardHandler = async (req, res) => {
                 {
                     model: db.Task,
                     as: 'task',
-                    attributes: ['name', 'project_id'],
+                    attributes: ['name', 'project_id', 'worksection_url'],
                     where: taskWhereClause,
                     include: {
                         model: db.Project,
                         as: 'project',
-                        attributes: ['name']
+                        attributes: ['name', 'worksection_id']
                     }
                 }
             ],
@@ -111,7 +111,8 @@ const getDashboardHandler = async (req, res) => {
             error: undefined,
             allDevelopers,
             allProjects,
-            filters: { username: developerId, project: projectId, date }
+            filters: { username: developerId, project: projectId, date },
+            worksectionUrl: process.env.WORKSECTION_BASE_URL
         });
     } catch (err) {
         console.error('Помилка завантаження відстежених годин:', err);

@@ -23,13 +23,13 @@
     <thead class="thead-blue">
         <tr>
             <th scope="col">#</th>
-            <th scope="col">Avatar</th>
-            <th scope="col">WS ID</th>
+            <th scope="col">Logo</th>
+            <th scope="col">Worksection ID</th>
             <th scope="col">Name</th>
             <th scope="col">Title</th>
             <th scope="col">Email</th>
             <th scope="col">Phone</th>
-            <th scope="col">Discord ID</th>
+            <!-- <th scope="col">Discord ID</th> -->
         </tr>
     </thead>
     <tbody>
@@ -49,9 +49,21 @@
                     <td><%= developer.ws_id %></td>
                     <td><%= developer.ws_name %></td>
                     <td><%= developer.ws_title || '-' %></td>
-                    <td><%= developer.ws_email || '-' %></td>
-                    <td><%= developer.ws_phone || '-' %></td>
-                    <td><%= developer.discord_id%></td>
+                    <td>
+                    <% if (developer.ws_email) { %>
+                        <a href="mailto:<%= developer.ws_email %>"><%= developer.ws_email %></a>
+                    <% } else { %>
+                        -
+                    <% } %>
+                    </td>
+                    <td>
+                    <% if (developer.ws_phone) { %>
+                        <a href="tel:<%= developer.ws_phone %>"><%= developer.ws_phone %></a>
+                    <% } else { %>
+                        -
+                    <% } %>
+                    </td>
+                    <!-- <td><%= developer.discord_id%></td> -->
                 </tr>
             <% }); %>
         <% } else { %>

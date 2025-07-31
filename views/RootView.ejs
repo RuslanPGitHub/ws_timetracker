@@ -72,127 +72,108 @@
 </div>
 
 <script>
-    Chart.register(window['chartjs-plugin-annotation']);
+    Chart.register(window['chartjs-plugin-annotation']);
 
-    const ctx = document.getElementById('hoursChart').getContext('2d');
-    ctx.canvas.style.width = '100%';
+    const ctx = document.getElementById('hoursChart').getContext('2d');
+    ctx.canvas.style.width = '100%';
 
-    const users = [
-        { name: 'Dmytro Ivanov', hours: 155 },
-        { name: 'Zakhar Fesik', hours: 140 },
-        { name: 'Sergiy Stepanchenko', hours: 110 },
-        { name: 'Natalia Shpak', hours: 105 },
-        { name: 'Oleksandr Kavyuk', hours: 95 },
-        { name: 'Vyacheslav Androshchuk', hours: 80 },
-        { name: 'Oleg Kravpa', hours: 70 },
-        { name: 'Petro Savin', hours: 60 },
-        { name: 'Yana Kravets', hours: 55 },
-        { name: 'Oleksii Shaidetskyi', hours: 50 },
-        { name: 'Bohdan Tomchyshen', hours: 45 },
-        { name: 'Hanna Yakymchuk', hours: 40 },
-        { name: 'Daria Ivanova', hours: 35 },
-        { name: 'Olena Shpak', hours: 30 },
-        { name: 'Anton Kovalenko', hours: 25 },
-    ];
+    const users = <%- JSON.stringify(data.developerHoursData || []) %>;
 
-    users.sort((a, b) => b.hours - a.hours);
-
-    new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: users.map((u) => u.name),
-            datasets: [
-                {
-                    label: 'Години в місяць',
-                    data: users.map((u) => u.hours),
-                    backgroundColor: 'rgba(13, 110, 253, 0.7)',
-                    borderWidth: 1,
-                    barThickness: 10,
-                    borderRadius: 4,
-                },
-            ],
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    max: 180,
-                    ticks: {
-                        callback: (val) => `${val} год`,
-                    },
-                    grid: {
-                        color: (ctx) => {
-                            const val = ctx.tick?.value;
-                            if (val === undefined) return undefined;
-                            if (val < 70) return 'rgba(255, 0, 0, 0.15)';
-                            if (val < 120) return 'rgba(255, 255, 0, 0.15)';
-                            if (val < 150) return 'rgba(0, 255, 0, 0.15)';
-                            return 'rgba(128, 0, 128, 0.15)';
-                        },
-                        drawTicks: false,
-                    },
-                },
-                y: {
-                    ticks: {
-                        autoSkip: false,
-                        maxRotation: 0,
-                        minRotation: 0,
-                    },
-                    grid: {
-                        display: false,
-                    },
-                    // Відступи між барчиками
-                    barPercentage: 0.6,
-                    categoryPercentage: 0.8,
-                },
-            },
-            plugins: {
-                legend: { display: false },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => `${ctx.raw} годин`,
-                    },
-                },
-                annotation: {
-                    annotations: {
-                        line120: {
-                            type: 'line',
-                            xMin: 120,
-                            xMax: 120,
-                            borderColor: 'darkcyan',
-                            borderWidth: 2,
-                            label: {
-                                enabled: true,
-                                content: '120',
-                                position: 'start',
-                                backgroundColor: 'darkcyan',
-                                color: 'white',
-                                font: { weight: 'bold' },
-                            },
-                        },
-                        line150: {
-                            type: 'line',
-                            xMin: 150,
-                            xMax: 150,
-                            borderColor: 'green',
-                            borderWidth: 2,
-                            label: {
-                                enabled: true,
-                                content: '150',
-                                position: 'start',
-                                backgroundColor: 'green',
-                                color: 'white',
-                                font: { weight: 'bold' },
-                            },
-                        },
-                    },
-                },
-            },
-        },
-    });
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: users.map((u) => u.name),
+            datasets: [
+                {
+                    label: 'Години в місяць',
+                    data: users.map((u) => u.hours),
+                    backgroundColor: 'rgba(13, 110, 253, 0.7)',
+                    borderWidth: 1,
+                    barThickness: 10,
+                    borderRadius: 4,
+                },
+            ],
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 180,
+                    ticks: {
+                        callback: (val) => `${val} год`,
+                    },
+                    grid: {
+                        color: (ctx) => {
+                            const val = ctx.tick?.value;
+                            if (val === undefined) return undefined;
+                            if (val < 70) return 'rgba(255, 0, 0, 0.15)';
+                            if (val < 120) return 'rgba(255, 255, 0, 0.15)';
+                            if (val < 150) return 'rgba(0, 255, 0, 0.15)';
+                            return 'rgba(128, 0, 128, 0.15)';
+                        },
+                        drawTicks: false,
+                    },
+                },
+                y: {
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 0,
+                        minRotation: 0,
+                    },
+                    grid: {
+                        display: false,
+                    },
+                    barPercentage: 0.6,
+                    categoryPercentage: 0.8,
+                },
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => `${ctx.raw} годин`,
+                    },
+                },
+                annotation: {
+                    annotations: {
+                        line120: {
+                            type: 'line',
+                            xMin: 120,
+                            xMax: 120,
+                            borderColor: 'darkcyan',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: '120',
+                                position: 'start',
+                                backgroundColor: 'darkcyan',
+                                color: 'white',
+                                font: { weight: 'bold' },
+                            },
+                        },
+                        line150: {
+                            type: 'line',
+                            xMin: 150,
+                            xMax: 150,
+                            borderColor: 'green',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: '150',
+                                position: 'start',
+                                backgroundColor: 'green',
+                                color: 'white',
+                                font: { weight: 'bold' },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    });
 </script>
 
 <%- include('partials/footer.ejs') %>

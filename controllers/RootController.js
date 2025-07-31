@@ -1,4 +1,5 @@
 const db = require('../models');
+const { Op } = require('sequelize');
 
 const getRootHandler = async (req, res) => {
     try {
@@ -61,6 +62,46 @@ const getRootHandler = async (req, res) => {
             totalMinutes < 10 ? '0' : ''
         }${totalMinutes}`;
 
+        const now = new Date();
+        const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0, 23, 59, 59, 999);
+
+        const developerHours = await db.TrackedHour.findAll({
+            where: {
+                created_at: {
+                    [Op.between]: [startOfMonth, endOfMonth],
+                },
+            },
+            attributes: [
+                [
+                    db.sequelize.fn(
+                        'SUM',
+                        db.sequelize.col('TrackedHour.hours')
+                    ),
+                    'totalDeveloperHours',
+                ],
+            ],
+            include: [
+                {
+                    model: db.Developer,
+                    as: 'developer',
+                    attributes: ['id', 'ws_name'], 
+                },
+            ],
+            group: ['developer.id', 'developer.ws_name'], 
+            raw: true,
+        });
+
+        const formattedDeveloperHours = developerHours.map((devData) => {
+            const decimalHours = parseFloat(devData.totalDeveloperHours);
+            return {
+                name: devData['developer.ws_name'], 
+                hours: Math.round(decimalHours),
+            };
+        });
+
+        formattedDeveloperHours.sort((a, b) => b.hours - a.hours);
+
         res.render('RootView', {
             error: false,
             data: {
@@ -69,12 +110,22 @@ const getRootHandler = async (req, res) => {
                 countTasks,
                 formattedProjectHours,
                 formattedTotalTime,
+                developerHoursData: formattedDeveloperHours,
             },
         });
     } catch (err) {
+        console.error('Помилка в getRootHandler:', err);
         res.render('RootView', {
             error: true,
-            data: 'Помилка в getRootHandler: ' + err,
+            message: 'Виникла помилка під час завантаження даних: ' + err.message,
+            data: {
+                countDevelopers: 0,
+                countProjects: 0,
+                countTasks: 0,
+                formattedProjectHours: [],
+                formattedTotalTime: '0:00',
+                developerHoursData: [],
+            },
         });
     }
 };
