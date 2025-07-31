@@ -1,19 +1,42 @@
 const { postToApi } = require('../core/apiClient');
 const db = require('../models');
+const { Op } = require('sequelize');
+const { pagination } = require('../configs/config');
 
 const getDevelopersHandler = async (req, res) => {
     try {
-        const developers = await db.Developer.findAll();
+        const page = parseInt(req.query.page) || 1;
+        const limit = pagination.default_limit;
+        const offset = (page - 1) * limit;
+
+        const { count, rows: developers } = await db.Developer.findAndCountAll({
+            offset,
+            limit,
+            order: [['ws_name', 'ASC']]
+        });
+
+        const pageCount = Math.ceil(count / limit);
+
         res.render('DevelopersView', {
             developers: developers,
             message: undefined,
             error: undefined,
+            pagination: {
+                total: count,
+                page,
+                pageCount,
+                limit
+            },
+            filters: {}
         });
     } catch (err) {
+        console.error('Помилка завантаження розробників:', err);
         res.status(500).render('DevelopersView', {
             developers: [],
             message: undefined,
             error: 'Не вдалося завантажити розробників з БД!',
+            pagination: null,
+            filters: {}
         });
     }
 };
@@ -40,10 +63,17 @@ const postDevelopersHandler = async (req, res) => {
                   })
                 : [];
 
-            res.status(200).render('DevelopersView', {
+            return res.status(200).render('DevelopersView', {
                 developers: developers,
                 message: undefined,
                 error: 'Не вдалося отримати нові дані розробників з Worksection або дані порожні.',
+                pagination: {
+                    total: developers.length,
+                    page: 1,
+                    pageCount: 1,
+                    limit: pagination.default_limit
+                },
+                filters: {}
             });
         }
 
@@ -74,20 +104,28 @@ const postDevelopersHandler = async (req, res) => {
 
         await Promise.all(upsertPromises);
 
-        developers = db.Developer
-            ? await db.Developer.findAll().catch((e) => {
-                  console.error(
-                      'Помилка отримання даних з БД після успішного оновлення:',
-                      e
-                  );
-                  return [];
-              })
-            : [];
+        const page = parseInt(req.query.page) || 1;
+        const limit = pagination.default_limit;
+        const offset = (page - 1) * limit;
+
+        const { count, rows: updatedDevelopers } = await db.Developer.findAndCountAll({
+            offset,
+            limit,
+            order: [['ws_name', 'ASC']]
+        });
+        const pageCount = Math.ceil(count / limit);
 
         return res.render('DevelopersView', {
-            developers: developers,
+            developers: updatedDevelopers,
             message: 'Список розробників успішно оновлено!',
             error: undefined,
+            pagination: {
+                total: count,
+                page,
+                pageCount,
+                limit
+            },
+            filters: {}
         });
     } catch (err) {
         console.error(
@@ -98,6 +136,8 @@ const postDevelopersHandler = async (req, res) => {
             developers: [],
             message: undefined,
             error: `Помилка при обробці даних розробників: ${err.message}`,
+            pagination: null,
+            filters: {}
         });
     }
 };

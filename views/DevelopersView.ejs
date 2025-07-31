@@ -19,59 +19,126 @@
     </div>
 <% } %>
 
-<table class="table">
-    <thead class="thead-blue">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Logo</th>
-            <th scope="col">Worksection ID</th>
-            <th scope="col">Name</th>
-            <th scope="col">Title</th>
-            <th scope="col">Email</th>
-            <th scope="col">Phone</th>
-            <!-- <th scope="col">Discord ID</th> -->
-        </tr>
-    </thead>
-    <tbody>
-        <% 
-        if (developers && developers.length > 0) { 
-            cnt = 0;
-        %>
-            <% 
-            developers.forEach(function(developer) { 
-            cnt++;
-                %>
-                <tr>
-                    <th scope="row"><%= cnt %></th>
-                    <td>
-                        <img src="<%= developer.ws_avatar || 'https://via.placeholder.com/50' %>" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
-                    </td>
-                    <td><%= developer.ws_id %></td>
-                    <td><%= developer.ws_name %></td>
-                    <td><%= developer.ws_title || '-' %></td>
-                    <td>
-                    <% if (developer.ws_email) { %>
-                        <a href="mailto:<%= developer.ws_email %>"><%= developer.ws_email %></a>
-                    <% } else { %>
-                        -
-                    <% } %>
-                    </td>
-                    <td>
-                    <% if (developer.ws_phone) { %>
-                        <a href="tel:<%= developer.ws_phone %>"><%= developer.ws_phone %></a>
-                    <% } else { %>
-                        -
-                    <% } %>
-                    </td>
-                    <!-- <td><%= developer.discord_id%></td> -->
-                </tr>
-            <% }); %>
-        <% } else { %>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
             <tr>
-                <td colspan="8" class="text-center">Немає даних про розробників для відображення.</td>
-            </tr>
-        <% } %>
-    </tbody>
-</table>
+                <th scope="col">#</th>
+                <th scope="col">Logo</th>
+                <th scope="col">Worksection ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Title</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                </tr>
+        </thead>
+        <tbody>
+            <% 
+            if (developers && developers.length > 0) { 
+                // Розраховуємо початковий номер для поточної сторінки
+                const startIdx = (pagination.page - 1) * pagination.limit;
+            %>
+                <% 
+                developers.forEach(function(developer, index) { 
+                    const rowNumber = startIdx + index + 1; // Нумерація рядків з урахуванням пагінації
+                %>
+                    <tr>
+                        <th scope="row"><%= rowNumber %></th>
+                        <td>
+                            <img src="<%= developer.ws_avatar || 'https://via.placeholder.com/50' %>" alt="Avatar" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover;" />
+                        </td>
+                        <td><%= developer.ws_id %></td>
+                        <td><%= developer.ws_name %></td>
+                        <td><%= developer.ws_title || '-' %></td>
+                        <td>
+                        <% if (developer.ws_email) { %>
+                                <a href="mailto:<%= developer.ws_email %>"><%= developer.ws_email %></a>
+                        <% } else { %>
+                                -
+                        <% } %>
+                        </td>
+                        <td>
+                        <% if (developer.ws_phone) { %>
+                                <a href="tel:<%= developer.ws_phone %>"><%= developer.ws_phone %></a>
+                        <% } else { %>
+                                -
+                        <% } %>
+                        </td>
+                        </tr>
+                <% }); %>
+            <% } else { %>
+                <tr>
+                    <td colspan="8" class="text-center">Немає даних про розробників для відображення.</td>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</div>
+
+<% if (pagination && pagination.pageCount > 1) { 
+    const currentPage = pagination.page;
+    const totalPages = pagination.pageCount;
+
+    const queryBase = new URLSearchParams();
+    // На відміну від Dashboard, тут поки немає фільтрів, але якщо з'являться, їх можна додати сюди
+    // for (const key in filters) {
+    //     if (filters[key]) queryBase.set(key, filters[key]);
+    // }
+
+    function pageLink(n) {
+        const query = new URLSearchParams(queryBase);
+        query.set('page', n);
+        return '?' + query.toString();
+    }
+
+    const pageNumbers = [];
+
+    if (totalPages <= 10) {
+        for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
+    } else {
+        pageNumbers.push(1);
+        if (currentPage > 4) pageNumbers.push('...');
+        
+        const start = Math.max(2, currentPage - 1);
+        const end = Math.min(totalPages - 1, currentPage + 1);
+        for (let i = start; i <= end; i++) pageNumbers.push(i);
+
+        if (currentPage < totalPages - 3) pageNumbers.push('...');
+        pageNumbers.push(totalPages);
+    }
+%>
+
+<nav aria-label="Пагінація" class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(1) %>">&laquo; Перша</a>
+        </li>
+
+        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(currentPage - 1) %>">&lsaquo; Назад</a>
+        </li>
+
+        <% pageNumbers.forEach(n => { %>
+            <% if (n === '...') { %>
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            <% } else { %>
+                <li class="page-item <%= currentPage === n ? 'active' : '' %>">
+                    <a class="page-link" href="<%= pageLink(n) %>"><%= n %></a>
+                </li>
+            <% } %>
+        <% }); %>
+
+        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(currentPage + 1) %>">Вперед &rsaquo;</a>
+        </li>
+
+
+        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(totalPages) %>">Остання &raquo;</a>
+        </li>
+    </ul>
+</nav>
+<% } %>
 
 <%- include('partials/footer.ejs') %>

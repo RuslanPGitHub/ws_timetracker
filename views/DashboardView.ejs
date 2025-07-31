@@ -106,8 +106,71 @@
             </tbody>
         </table>
     </div>
-
-
 </div>
+
+<% if (pagination && pagination.pageCount > 1) { 
+    const currentPage = pagination.page;
+    const totalPages = pagination.pageCount;
+
+    const queryBase = new URLSearchParams();
+    for (const key in filters) {
+        if (filters[key]) queryBase.set(key, filters[key]);
+    }
+
+    function pageLink(n) {
+        const query = new URLSearchParams(queryBase);
+        query.set('page', n);
+        return '?' + query.toString();
+    }
+
+    const pageNumbers = [];
+
+    if (totalPages <= 10) {
+        for (let i = 1; i <= totalPages; i++) pageNumbers.push(i);
+    } else {
+        pageNumbers.push(1);
+        if (currentPage > 4) pageNumbers.push('...');
+        
+        const start = Math.max(2, currentPage - 1);
+        const end = Math.min(totalPages - 1, currentPage + 1);
+        for (let i = start; i <= end; i++) pageNumbers.push(i);
+
+        if (currentPage < totalPages - 3) pageNumbers.push('...');
+        pageNumbers.push(totalPages);
+    }
+%>
+
+<nav aria-label="Пагінація" class="mt-4">
+    <ul class="pagination justify-content-center">
+
+        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(1) %>">&laquo; Перша</a>
+        </li>
+
+        <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(currentPage - 1) %>">&lsaquo; Назад</a>
+        </li>
+
+        <% pageNumbers.forEach(n => { %>
+            <% if (n === '...') { %>
+                <li class="page-item disabled"><span class="page-link">…</span></li>
+            <% } else { %>
+                <li class="page-item <%= currentPage === n ? 'active' : '' %>">
+                    <a class="page-link" href="<%= pageLink(n) %>"><%= n %></a>
+                </li>
+            <% } %>
+        <% }); %>
+
+        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(currentPage + 1) %>">Вперед &rsaquo;</a>
+        </li>
+
+
+        <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+            <a class="page-link" href="<%= pageLink(totalPages) %>">Остання &raquo;</a>
+        </li>
+    </ul>
+</nav>
+<% } %>
 
 <%- include('partials/footer.ejs') %>

@@ -12,4 +12,7 @@ module.exports = {
             },
         },
     },
+    pagination: {
+        default_limit: 15,
+    },
 };
