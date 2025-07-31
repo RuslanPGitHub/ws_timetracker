@@ -1,0 +1,67 @@
+Table users {
+  id uuid [pk]
+  username varchar [not null, unique]
+  password varchar [not null]
+  role varchar [not null]
+  description varchar
+  created_at timestamp [default: `now()`]
+}
+
+Table developers {
+  id uuid [pk]
+  ws_avatar varchar
+  ws_id integer [not null, unique]
+  ws_name varchar [not null]
+  ws_title varchar
+  ws_email varchar
+  ws_phone varchar
+  discord_id varchar [not null, unique]
+  created_at timestamp [default: `now()`]
+}
+
+Table projects {
+  id uuid [pk]
+  worksection_id integer [not null, unique]
+  name varchar [not null, unique]
+  created_at timestamp [default: `now()`]
+}
+
+Table tasks {
+  id uuid [pk]
+  project_id uuid [not null, ref: > projects.id]
+  name varchar [not null]
+  worksection_url varchar [not null]
+  description text
+  created_at timestamp [default: `now()`]
+}
+
+Table tracked_hours {
+  id uuid [pk]
+  developer_id uuid [not null, ref: > developers.id]
+  task_id uuid [ref: > tasks.id]
+  date date [not null]
+  hours float [not null]
+  created_at timestamp [default: `now()`]
+}
+
+Table settings {
+  id uuid [pk]
+  key varchar [not null, unique]
+  value varchar [not null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table discord_notifications {
+  id uuid [pk]
+  developer_id uuid [not null, ref: > developers.id]
+  message text [not null]
+  sent_at timestamp [default: `now()`]
+}
+
+Table logs {
+  id uuid [pk]
+  scan_date timestamp  [not null]
+  developers_checked integer [not null]
+  errors text
+}

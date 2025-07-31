@@ -3,196 +3,196 @@
 <div class="container py-5">
     <h2 class="mb-4">Загальна статистика</h2>
     <div class="row text-center mb-5">
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="card-title">Усього часу</h6>
-            <p class="display-6">198:45</p>
-          </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Усього часу</h6>
+                    <p class="display-6"><%= data.formattedTotalTime %></p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="card-title">Проектів</h6>
-            <p class="display-6">7</p>
-          </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Проектів</h6>
+                    <p class="display-6"><%= data.countProjects %></p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="card-title">Задач</h6>
-            <p class="display-6">15</p>
-          </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Задач</h6>
+                    <p class="display-6"><%= data.countTasks %></p>
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="col-md-3">
-        <div class="card">
-          <div class="card-body">
-            <h6 class="card-title">Користувачів</h6>
-            <p class="display-6">15</p>
-          </div>
+        <div class="col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Користувачів</h6>
+                    <p class="display-6"><%= data.countDevelopers %></p>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
     <h4 class="mb-3">Час по проектах</h4>
     <div class="table-responsive mb-5">
-      <table class="table table-bordered">
-        <thead class="table-light">
-          <tr>
-            <th>Проект</th>
-            <th class="text-end">Затрачено часу</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr><td>Cookies bot</td><td class="text-end">3:36</td></tr>
-          <tr><td>SOLMAR</td><td class="text-end">1:30</td></tr>
-          <tr><td>In development</td><td class="text-end">0:36</td></tr>
-          <tr><td>Shaul[Gold Arrow Tax]</td><td class="text-end">0:06</td></tr>
-          <tr><td>Dr Clinic</td><td class="text-end">1:26</td></tr>
-          <tr><td>Внутрішні розборки</td><td class="text-end">1:13</td></tr>
-          <tr><td>Світ замків</td><td class="text-end">1:02</td></tr>
-          <tr><td>Gamepayment Tg Bot</td><td class="text-end">8:51</td></tr>
-        </tbody>
-      </table>
+        <table class="table table-bordered">
+            <thead class="table-light">
+                <tr>
+                    <th>Проект</th>
+                    <th class="text-end">Затрачено часу</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% data.formattedProjectHours.forEach((val) => { %>
+                <tr>
+                    <td><%=val.projectName%></td>
+                    <td class="text-end"><%=val.totalTime%></td>
+                </tr>
+                <% }) %>
+            </tbody>
+        </table>
     </div>
 
     <div class="d-flex justify-content-between align-items-center mb-3">
-      <h4>Топ користувачів за місяць</h4>
-      <select class="form-select w-auto" id="monthSelector">
-        <option selected>Червень 2025</option>
-        <option>Травень 2025</option>
-        <option>Квітень 2025</option>
-      </select>
+        <h4>Норми користувачів за місяць</h4>
+        <!-- <select class="form-select w-auto" id="monthSelector">
+            <option selected>Червень 2025</option>
+            <option>Травень 2025</option>
+            <option>Квітень 2025</option>
+        </select> -->
     </div>
 
     <div id="hoursChartWrapper">
-      <canvas id="hoursChart"></canvas>
+        <canvas id="hoursChart"></canvas>
     </div>
-  </div>
+</div>
 
-  <script>
+<script>
     Chart.register(window['chartjs-plugin-annotation']);
 
     const ctx = document.getElementById('hoursChart').getContext('2d');
     ctx.canvas.style.width = '100%';
 
     const users = [
-      { name: 'Dmytro Ivanov', hours: 155 },
-      { name: 'Zakhar Fesik', hours: 140 },
-      { name: 'Sergiy Stepanchenko', hours: 110 },
-      { name: 'Natalia Shpak', hours: 105 },
-      { name: 'Oleksandr Kavyuk', hours: 95 },
-      { name: 'Vyacheslav Androshchuk', hours: 80 },
-      { name: 'Oleg Kravpa', hours: 70 },
-      { name: 'Petro Savin', hours: 60 },
-      { name: 'Yana Kravets', hours: 55 },
-      { name: 'Oleksii Shaidetskyi', hours: 50 },
-      { name: 'Bohdan Tomchyshen', hours: 45 },
-      { name: 'Hanna Yakymchuk', hours: 40 },
-      { name: 'Daria Ivanova', hours: 35 },
-      { name: 'Olena Shpak', hours: 30 },
-      { name: 'Anton Kovalenko', hours: 25 }
+        { name: 'Dmytro Ivanov', hours: 155 },
+        { name: 'Zakhar Fesik', hours: 140 },
+        { name: 'Sergiy Stepanchenko', hours: 110 },
+        { name: 'Natalia Shpak', hours: 105 },
+        { name: 'Oleksandr Kavyuk', hours: 95 },
+        { name: 'Vyacheslav Androshchuk', hours: 80 },
+        { name: 'Oleg Kravpa', hours: 70 },
+        { name: 'Petro Savin', hours: 60 },
+        { name: 'Yana Kravets', hours: 55 },
+        { name: 'Oleksii Shaidetskyi', hours: 50 },
+        { name: 'Bohdan Tomchyshen', hours: 45 },
+        { name: 'Hanna Yakymchuk', hours: 40 },
+        { name: 'Daria Ivanova', hours: 35 },
+        { name: 'Olena Shpak', hours: 30 },
+        { name: 'Anton Kovalenko', hours: 25 },
     ];
 
-    users.sort((a,b) => b.hours - a.hours);
+    users.sort((a, b) => b.hours - a.hours);
 
     new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: users.map(u => u.name),
-        datasets: [{
-          label: 'Години в місяць',
-          data: users.map(u => u.hours),
-          backgroundColor: 'rgba(13, 110, 253, 0.7)',
-          borderWidth: 1,
-          barThickness: 10,
-          borderRadius: 4
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-          x: {
-            beginAtZero: true,
-            max: 180,
-            ticks: {
-              callback: val => `${val} год`
-            },
-            grid: {
-              color: ctx => {
-                const val = ctx.tick?.value;
-                if (val === undefined) return undefined;
-                if (val < 70) return 'rgba(255, 0, 0, 0.15)';
-                if (val < 120) return 'rgba(255, 255, 0, 0.15)';
-                if (val < 150) return 'rgba(0, 255, 0, 0.15)';
-                return 'rgba(128, 0, 128, 0.15)';
-              },
-              drawTicks: false
-            }
-          },
-          y: {
-            ticks: {
-              autoSkip: false,
-              maxRotation: 0,
-              minRotation: 0
-            },
-            grid: {
-              display: false
-            },
-            // Відступи між барчиками
-            barPercentage: 0.6,
-            categoryPercentage: 0.8
-          }
+        type: 'bar',
+        data: {
+            labels: users.map((u) => u.name),
+            datasets: [
+                {
+                    label: 'Години в місяць',
+                    data: users.map((u) => u.hours),
+                    backgroundColor: 'rgba(13, 110, 253, 0.7)',
+                    borderWidth: 1,
+                    barThickness: 10,
+                    borderRadius: 4,
+                },
+            ],
         },
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: ctx => `${ctx.raw} годин`
-            }
-          },
-          annotation: {
-            annotations: {
-              line120: {
-                type: 'line',
-                xMin: 120,
-                xMax: 120,
-                borderColor: 'darkcyan',
-                borderWidth: 2,
-                label: {
-                  enabled: true,
-                  content: '120',
-                  position: 'start',
-                  backgroundColor: 'darkcyan',
-                  color: 'white',
-                  font: { weight: 'bold' }
-                }
-              },
-              line150: {
-                type: 'line',
-                xMin: 150,
-                xMax: 150,
-                borderColor: 'green',
-                borderWidth: 2,
-                label: {
-                  enabled: true,
-                  content: '150',
-                  position: 'start',
-                  backgroundColor: 'green',
-                  color: 'white',
-                  font: { weight: 'bold' }
-                }
-              }
-            }
-          }
-        }
-      }
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 180,
+                    ticks: {
+                        callback: (val) => `${val} год`,
+                    },
+                    grid: {
+                        color: (ctx) => {
+                            const val = ctx.tick?.value;
+                            if (val === undefined) return undefined;
+                            if (val < 70) return 'rgba(255, 0, 0, 0.15)';
+                            if (val < 120) return 'rgba(255, 255, 0, 0.15)';
+                            if (val < 150) return 'rgba(0, 255, 0, 0.15)';
+                            return 'rgba(128, 0, 128, 0.15)';
+                        },
+                        drawTicks: false,
+                    },
+                },
+                y: {
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 0,
+                        minRotation: 0,
+                    },
+                    grid: {
+                        display: false,
+                    },
+                    // Відступи між барчиками
+                    barPercentage: 0.6,
+                    categoryPercentage: 0.8,
+                },
+            },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => `${ctx.raw} годин`,
+                    },
+                },
+                annotation: {
+                    annotations: {
+                        line120: {
+                            type: 'line',
+                            xMin: 120,
+                            xMax: 120,
+                            borderColor: 'darkcyan',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: '120',
+                                position: 'start',
+                                backgroundColor: 'darkcyan',
+                                color: 'white',
+                                font: { weight: 'bold' },
+                            },
+                        },
+                        line150: {
+                            type: 'line',
+                            xMin: 150,
+                            xMax: 150,
+                            borderColor: 'green',
+                            borderWidth: 2,
+                            label: {
+                                enabled: true,
+                                content: '150',
+                                position: 'start',
+                                backgroundColor: 'green',
+                                color: 'white',
+                                font: { weight: 'bold' },
+                            },
+                        },
+                    },
+                },
+            },
+        },
     });
-  </script>
+</script>
 
 <%- include('partials/footer.ejs') %>
