@@ -6,6 +6,7 @@ const PORT = process.env.PORT || 3000;
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
+const fs = require('fs');
 
 const router = require('./routes');
 
@@ -42,4 +43,17 @@ app.use((req, res, next) => {
     res.status(404).render('404', { title: 'Page Not Found' });
 });
 
-app.listen(PORT, () => console.log(`Server was started on port ${PORT}`));
+if ("SOCKET" in process.env && process.env.SOCKET) {
+    const socket = process.env.SOCKET;
+    if (fs.existsSync(socket)) {
+        fs.unlinkSync(socket);
+    }
+    app.listen(socket, () => {
+        fs.chmodSync(socket, 0o660);
+        console.log(`Express.js server is listening on socket ${socket}`);
+    });
+} else {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server was started on port ${PORT}`));
+}
+
